@@ -42,6 +42,13 @@ jobs:
         run: |
           yarn --frozen-lockfile
 
+      - name: Escape HTML tags in frontmatter
+        # On macOS it is:
+        # find files/en-us/ -name 'index.html' -type f -exec sed -i '' 's/^title:.*<.*/title:/; s/^  - <.*/  -/' {} \;
+        # from https://stackoverflow.com/a/57766728/455535
+        run: |
+          find files/en-us/ -name 'index.html' -type f -exec sed -i 's/^title:.*<.*/title:/; s/^  - <.*/  -/' {} \;
+
       - name: HTML Validator
         run: |
           echo "::add-matcher::.github/workflows/vnu-jar-problem-matcher.json"
